@@ -1,7 +1,19 @@
 #!/usr/bin/with-contenv bash
 
+mkdir -p /config/.irssi/scripts/autorun
+if [[ ! -d /config/.irssi/scripts/AutodlIrssi ]]; then
+   cp -a /opt/irssi/scripts/AutodlIrssi /config/.irssi/scripts/AutodlIrssi
+fi
+if [[ ! -f /config/.irssi/scripts/autorun/autodl-irssi.pl ]]; then
+   cp /opt/irssi/scripts/autorun/autodl-irssi.pl /config/.irssi/scripts/autorun/autodl-irssi.pl
+fi
+mkdir -p /config/.autodl
+touch /config/.autodl/autodl.cfg
+
+su abc -c "/usr/bin/dtach -n /config/.irssi.sock /usr/bin/irssi"
+
 # permissions
 chown -R abc:abc \
 	/config
-chown abc:abc \
+[[ -z "${DISABLE_PERMISSIONS_CHANGE}" ]] && chown abc:abc \
 	/downloads
